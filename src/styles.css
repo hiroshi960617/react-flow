@@ -1,0 +1,422 @@
+@layer demo, meta;
+
+/* === FONT STUFF (from original styles.css) === */
+@font-face {
+  font-family: 'Monaspace';
+  src:
+    url('/shared/MonaspaceKrypton-SyntaxHighlighter-Regular.woff2')
+    format('woff2')
+  ;
+}
+
+@font-palette-values --kung-fury {
+  font-family: "Monaspace";
+  override-colors:
+    0 hsl(225 100% 40%), /* curlies and tags */
+    1 hsl(250 100% 80%), /* ? */
+    2 hsl(225 100% 40%), /* function */
+    3 hsl(225 100% 40%), /* ? */
+    4 hsl(270 50% 40%),  /* () */
+    5 hsl(210 40% 2%),   /* property name */
+    6 hsl(210 10% 30%),  /* ? */
+    7 hsl(327 100% 54%)  /* numbers */
+  ;
+}
+
+/* === META BOX STYLES (from original styles.css) === */
+@layer meta {
+	@layer metabox {
+		#metabox {
+			position: fixed;
+			bottom: 1rem;
+			right: 1rem;
+
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+			font-size: 1.2rem;
+			z-index: 2147483647;
+		}
+
+		/* Hide all but infobox when embedded */
+		.is-embed #metabox :is(#version-selector, #version-selector-popover, .button[href="/"]) {
+			display: none;
+		}
+
+		#metabox :is(button, .button) {
+			font-size: 2.5rem;
+			line-height: 1;
+			display: block;
+
+			border: 0;
+			background: transparent;
+			padding: 0;
+			cursor: pointer;
+
+			opacity: 0.7;
+			transition: opacity 0.25s ease-in-out;
+			border-radius: 0.25rem;
+			text-decoration: none;
+		}
+
+		#metabox :is(button, .button):active,
+		#metabox :is(button, .button):focus {
+			outline: 2px dashed rgb(0 0 0 / 0.5);
+			outline-offset: 0.25rem;
+		}
+
+		#metabox > :is(button, .button):hover {
+			opacity: 1 !important;
+		}
+
+		@keyframes pulsate {
+			80% {
+				opacity: 1;
+			}
+			85% {
+				opacity: 1;
+			}
+			90% {
+				opacity: 0;
+			}
+			95% {
+				opacity: 1;
+			}
+			100% {
+				opacity: 0;
+			}
+		}
+
+		#metabox > button.animated {
+			animation: 5s pulsate ease-in alternate infinite;
+		}
+
+		#metabox > button.animated:hover,
+		#metabox > button.animated:focus,
+		#metabox:has(dialog[open]) > button.animated {
+			animation: none;
+		}
+
+		#metabox > button[disabled] {
+			cursor: not-allowed;
+			outline: none !important;
+		}
+	}
+
+	@layer infobox {
+		@layer ui {
+			#infobox[open] {
+				box-sizing: border-box;
+				margin: 10vh auto;
+				width: 80vw;
+				max-width: 90ch;
+				max-height: 80vh;
+				padding: 2rem;
+				overscroll-behavior: contain;
+
+				background: #eee;
+				border: 0.25rem solid lightblue;
+				overflow: auto;
+
+				position: fixed;
+			}
+
+			#infobox::backdrop {
+				background-color: rgb(0 0 0 / 0.5);
+			}
+
+			#infobox > :first-child {
+				margin-top: 0;
+			}
+			#infobox > :last-child {
+				margin-bottom: 0;
+			}
+
+			#infobox-close {
+				/* Also inherits from `#metabox > button` */
+				position: absolute;
+				right: 0.5rem;
+				top: 0.5rem;
+
+				filter: grayscale();
+			}
+			#infobox-close:hover,
+			#infobox-close:focus {
+				filter: none;
+			}
+		}
+
+		@layer code {
+			#infobox pre {
+				border: 1px solid #dedede;
+				padding: 1em;
+				background: #f7f7f7;
+				font-family: "Monaspace", monospace;
+			  font-palette: --kung-fury;
+				overflow-x: auto;
+				border-left: 0.4em solid cornflowerblue;
+				tab-size: 2;
+			}
+
+			#infobox code {
+				font-family: "Monaspace", monospace;
+			  font-palette: --kung-fury;
+			}
+
+			#infobox code:not(pre code),
+			#infobox output:not(code:has(output) output) {
+				background: #f7f7f7;
+				border: 1px solid rgb(0 0 0 / 0.2);
+				padding: 0.1rem 0.3rem;
+				margin: 0.1rem 0;
+				border-radius: 0.2rem;
+				display: inline-block;
+			}
+		}
+	}
+
+	@layer popover {
+		[popovertarget][data-activeversion] {
+			position: relative;
+		}
+		[popovertarget][data-activeversion]::after {
+			content: attr(data-activeversion);
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			z-index: 2;
+			font-size: 0.8rem;
+			font-weight: bold;
+			padding: 0.1em;
+			background-color: #1874bc;
+			color: white;
+			font-family: 'Courier New', Courier, monospace;
+			font-variant-numeric: tabular-nums;
+			display: block;
+			min-width: 2ex;
+			line-height: 1;
+		}
+		[popovertarget][data-activeversion][data-activelang="js"]::after {
+			background-color: #f7df1e;
+			color: #333;
+		}
+		[popovertarget] {
+			anchor-name: --my-anchor-popover;
+		}
+		[popover] {
+			inset: auto;
+			width: auto;
+			padding: 1rem 1rem 2rem 1rem;
+			overflow: unset;
+			bottom: calc(anchor(top) - 3rem);
+			right: calc(anchor(right) + 3rem);
+		}
+
+		.no-anchor [popover] {
+			min-width: 20rem;
+			/* transform: translate(calc(-100% - 1rem), calc(-100% + 1rem)); */
+			z-index: 2147483647;
+			bottom: 10rem;
+			right: 4.5rem;
+		}
+
+		[popover] > :first-child {
+			margin-top: 0;
+		}
+		[popover] > :last-child {
+			margin-bottom: 0;
+		}
+
+		[popover] [data-lang]::before {
+			content: attr(data-lang);
+			font-size: 0.8rem;
+			font-weight: bold;
+			padding: 0.1em;
+			background-color: blue;
+			color: white;
+			font-family: 'Courier New', Courier, monospace;
+			font-variant-numeric: tabular-nums;
+			background-color: #1874bc;
+			display: inline-block;
+			width: 2rem;
+			text-align: center;
+			vertical-align: middle;
+			margin-right: 0.2rem;
+		}
+		[popover] [data-lang="js"]::before {
+			background-color: #f7df1e;
+			color: #333;
+		}
+
+		[popover] [data-selected] {
+			font-weight: 700;
+		}
+	}
+
+	@layer warning {
+		.warning {
+			box-sizing: border-box;
+			padding: 1em;
+			margin: 1em 0;
+			border: 1px solid #ccc;
+			background: rgba(255 255 205 / 0.8);
+		}
+
+		.warning > :first-child {
+			margin-top: 0;
+		}
+
+		.warning > :last-child {
+			margin-bottom: 0;
+		}
+
+		.warning a {
+			color: blue;
+		}
+		.warning--info {
+			border: 1px solid #123456;
+			background: rgb(205 230 255 / 0.8);
+		}
+		.warning--alarm {
+			border: 1px solid red;
+			background: #ff000010;
+		}
+
+		@supports (animation-timeline: view()) {
+			.warning:not([data-bug]) {
+				display: none;
+			}
+		}
+
+		@supports(animation-range: 0vh 90vh) {
+			.warning[data-bug="1427062"] {
+				display: none;
+			}
+		}
+	}
+}
+
+/* === COVERFLOW STYLES (extracted from original index.html) === */
+@layer demo.base, demo.components;
+
+:root {
+    --cover-size: 200px; /* Define cover size */
+}
+
+/* Basic layout for centering */
+html, body {
+    height: 100%;
+    /* overflow: hidden; /* Might hide scrollbars needed for coverflow */
+}
+body {
+    display: grid; /* Use grid for centering */
+    place-items: center;
+    background-color: #333; /* Example background */
+    color: white;
+}
+
+/* Animation that rotates the cover */
+@keyframes rotate-cover {
+    0% {
+        transform: translateX(-100%) rotateY(-45deg);
+    }
+    35% {
+        transform: translateX(0) rotateY(-45deg);
+    }
+    50% {
+        transform: rotateY(0deg) translateZ(calc(var(--cover-size) * 0.1)) scale(1.5); /* Adjust translateZ based on size */
+    }
+    65% {
+        transform: translateX(0) rotateY(45deg);
+    }
+    100% {
+        transform: translateX(100%) rotateY(45deg);
+    }
+}
+
+.cards-wrapper {
+    perspective: calc(var(--cover-size) * 2); /* Adjust perspective based on size */
+    max-width: calc(var(--cover-size) * 6); /* Limit width */
+    overflow-x: scroll; /* Enable horizontal scrolling */
+    margin: 2rem auto; /* Center the wrapper */
+    padding: 2rem 0; /* Add padding for visual space */
+}
+
+.cards {
+    transform-style: preserve-3d;
+    list-style: none;
+    padding: 0 calc(var(--cover-size) * 2); /* Add padding so first/last items can center */
+    margin: 0;
+    white-space: nowrap; /* Keep items in one line */
+    scroll-snap-type: x mandatory; /* Enable scroll snapping */
+    /* Ensure enough height for scaled items */
+    min-height: calc(var(--cover-size) * 1.6);
+    position: relative; /* Needed for absolute positioning if used */
+}
+
+.cards li {
+    transform-style: preserve-3d;
+    display: inline-block; /* Layout items horizontally */
+    width: var(--cover-size);
+    aspect-ratio: 1;
+    margin: 0 calc(var(--cover-size) * -0.1); /* Overlap items slightly */
+    scroll-snap-align: center; /* Snap items to center */
+    vertical-align: middle; /* Align items vertically */
+    position: relative; /* Needed for z-index or transform context */
+}
+
+.cards li img {
+    /* Apply the animation */
+    animation: linear rotate-cover both;
+    animation-timeline: view(inline); /* Link to scroll position */
+
+    /* Initial state to prevent FOUC with polyfill */
+    transform: translateX(-100%) rotateY(-45deg);
+    transform-style: preserve-3d;
+    will-change: transform;
+
+    /* Visual styles */
+    position: relative;
+    user-select: none;
+    display: block; /* Remove extra space below image */
+    width: 100%;
+    height: auto;
+    border-radius: 5px; /* Optional: rounded corners */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* Optional: add shadow */
+
+    /* Reflection */
+    -webkit-box-reflect: below 0.5em linear-gradient(transparent, transparent 50%, rgba(0, 0, 0, 0.25));
+}
+
+/* Optional: Alternative animation for main thread (controls not implemented yet) */
+@keyframes rotate-cover--mt {
+    0% {
+        transform: translateX(-100%) rotateY(-45deg);
+        --force-mt: 1;
+    }
+    35% {
+        transform: translateX(0) rotateY(-45deg);
+    }
+    50% {
+        transform: rotateY(0deg) translateZ(calc(var(--cover-size) * 0.1)) scale(1.5);
+    }
+    65% {
+        transform: translateX(0) rotateY(45deg);
+    }
+    100% {
+        transform: translateX(100%) rotateY(45deg);
+        --force-mt: 0;
+    }
+}
+/*
+#controls:has(#force-main-thread:checked) ~ .cards li img {
+    animation-name: rotate-cover--mt;
+}
+*/
+
+/* Hide controls if embedded (controls not implemented yet) */
+/*
+.is-embed #controls {
+    display: none;
+}
+*/

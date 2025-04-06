@@ -223,14 +223,7 @@
     "album": "Master of Puppets ",
     "image_url": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/69/f9/05/69f905ed-ff04-58a2-8de2-1b5338745f19/858978005226.png/550x550bb.jpg"
   },
-    {
-    "position": 68,
-    "title": "Is This It",
-    "artists": "The Strokes",
-    "album": "Is This It",
-    "image_url": "https://is1-ssl.mzstatic.com/image/thumb/Features115/v4/ea/04/d4/ea04d45d-6f5d-ede6-fb64-71f3e6a6e62f/dj.ojkzzidd.jpg/550x550bb.jpg"
-  },
-      {
+  {
     "position": 67,
     "title": "Dummy",
     "artists": "Portishead",
@@ -264,13 +257,6 @@
     "artists": "The Jimi Hendrix Experience",
     "album": "Are You Experienced",
     "image_url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/00/67/45/006745f5-95d5-5a06-35ed-d515e9cfd7d8/dj.tbwlxwoh.jpg/550x550bb.jpg"
-  },
-  {
-    "position": 62,
-    "title": "All Eyez on Me",
-    "artists": "2Pac",
-    "album": "All Eyez on Me",
-    "image_url": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/33/84/fc/3384fc51-1eeb-e78f-2770-14844fcdd3b5/21UM1IM16262.rgb.jpg/550x550bb.jpg"
   },
    {
     "position": 61,
@@ -383,12 +369,5 @@
     "artists": "Bob Marley & The Wailers",
     "album": "Exodus ",
     "image_url": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/23/fa/f8/23faf820-c4fa-2bf1-d672-846971f5cf5c/06UMGIM31355.rgb.jpg/550x550bb.jpg"
-  },
-   {
-    "position": 45,
-    "title": "Homogenic ",
-    "artists": "Björk",
-    "album": "Homogenic ",
-    "image_url": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/7f/bd/d0/7fbdd0e0-c588-ef4b-a6dd-4dca21f8b41f/081227607364.jpg/550x550bb.jpg"
   }
 ]

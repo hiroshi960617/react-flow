@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types'; // Import PropTypes
 import './styles.css'; // Import the base styles
 
-function Coverflow() {
+function Coverflow({ dataUrl = '/albums.json' }) { // Accept dataUrl prop with default
   const [albums, setAlbums] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('/albums.json') // Fetches from the public folder
+    fetch(dataUrl) // Use the dataUrl prop
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -18,7 +19,7 @@ function Coverflow() {
         console.error('Error fetching albums:', error);
         setError(error.message);
       });
-  }, []); // Empty dependency array means this runs once on mount
+  }, [dataUrl]); // Add dataUrl to dependency array
 
   // Basic click handler (can be expanded later)
   const handleCardClick = (url) => {
@@ -57,5 +58,10 @@ function Coverflow() {
     </div>
   );
 }
+
+// Add PropTypes for documentation and validation
+Coverflow.propTypes = {
+  dataUrl: PropTypes.string,
+};
 
 export default Coverflow;

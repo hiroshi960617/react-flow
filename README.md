@@ -40,3 +40,65 @@ Runs the ESLint linter to check for code style issues.
 ### `npm run preview`
 
 Serves the production build locally to preview it.
+
+## Using the Coverflow Component
+
+The core of this project is the `Coverflow` component located in `src/Coverflow.jsx`.
+
+### Basic Usage
+
+Import the component and render it in your application:
+
+```jsx
+import React from 'react';
+import Coverflow from './Coverflow'; // Adjust the import path as needed
+import './App.css'; // Or your main CSS file
+
+function App() {
+  return (
+    <div className="App">
+      <h1>React Coverflow Demo</h1>
+      <Coverflow />
+    </div>
+  );
+}
+
+export default App;
+```
+
+### Configuration
+
+The `Coverflow` component accepts the following props:
+
+*   **`dataUrl`** (string, optional): The URL to fetch the album data from.
+    *   Defaults to `/albums.json`.
+    *   The component expects the data to be a JSON array of objects. Each object should have at least an `image_url` property (for the image source) and preferably `title` and `artists` properties (used for the image `alt` text). A unique `key` (like `position` in the default data) is also recommended for React list rendering.
+
+    Example structure:
+    ```json
+    [
+      {
+        "position": 1,
+        "title": "Album Title",
+        "artists": "Artist Name",
+        "image_url": "https://example.com/image.jpg"
+      },
+      // ... more albums
+    ]
+    ```
+
+    To use a different data source, provide the URL via the prop:
+
+    ```jsx
+    <Coverflow dataUrl="/path/to/your/custom-data.json" />
+    ```
+
+    Or fetch from an external API:
+
+    ```jsx
+    <Coverflow dataUrl="https://api.example.com/albums" />
+    ```
+
+### Styling
+
+The component relies on CSS for the coverflow effect. Basic styles are included in `src/styles.css`. You may need to adjust or extend these styles depending on your application's layout and design. The scroll-driven animation logic is in `public/scroll-timeline.js`, which is loaded by `index.html`.

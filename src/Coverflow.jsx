@@ -14,7 +14,27 @@ function Coverflow({ dataUrl = '/albums.json' }) { // Accept dataUrl prop with d
         }
         return response.json();
       })
-      .then(data => setAlbums(data))
+      .then(data => {
+        setAlbums(data); // Set state first
+
+        // Prefetch images with low priority after setting state
+        if (Array.isArray(data)) {
+          data.forEach(album => {
+            if (album.image_url) {
+              fetch(album.image_url, { priority: 'low', cors: 'no-cors' }) // Use low priority for prefetch
+                .then(res => {
+                  if (!res.ok) {
+                    console.warn(`Failed to prefetch image (status ${res.status}): ${album.image_url}`);
+                  }
+                  // We don't need the image body, just the request
+                })
+                .catch(prefetchError => {
+                  console.warn(`Error prefetching image ${album.image_url}:`, prefetchError);
+                });
+            }
+          });
+        }
+      })
       .catch(error => {
         console.error('Error fetching albums:', error);
         setError(error.message);

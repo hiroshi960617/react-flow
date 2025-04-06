@@ -1,8 +1,7 @@
 # React Flow
 
-This project is a React application built with Vite, demonstrating a Coverflow component.
+This project is a React application built with Vite, demonstrating a Coverflow component. It uses the CSS scroll-driven animation effect to create a visually appealing coverflow effect for displaying album covers. It supports prefetching images using Fetch Priority.
 
-Repository: [https://github.com/addyosmani/react-flow](https://github.com/addyosmani/react-flow)
 
 ## Setup
 
@@ -83,7 +82,6 @@ The `Coverflow` component accepts the following props:
         "artists": "Artist Name",
         "image_url": "https://example.com/image.jpg"
       },
-      // ... more albums
     ]
     ```
 

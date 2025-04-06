@@ -1,28 +1,5 @@
 @layer demo, meta;
 
-/* === FONT STUFF (from original styles.css) === */
-@font-face {
-  font-family: 'Monaspace';
-  src:
-    url('/shared/MonaspaceKrypton-SyntaxHighlighter-Regular.woff2')
-    format('woff2')
-  ;
-}
-
-@font-palette-values --kung-fury {
-  font-family: "Monaspace";
-  override-colors:
-    0 hsl(225 100% 40%), /* curlies and tags */
-    1 hsl(250 100% 80%), /* ? */
-    2 hsl(225 100% 40%), /* function */
-    3 hsl(225 100% 40%), /* ? */
-    4 hsl(270 50% 40%),  /* () */
-    5 hsl(210 40% 2%),   /* property name */
-    6 hsl(210 10% 30%),  /* ? */
-    7 hsl(327 100% 54%)  /* numbers */
-  ;
-}
-
 /* === META BOX STYLES (from original styles.css) === */
 @layer meta {
 	@layer metabox {
@@ -313,7 +290,14 @@ body {
     place-items: center;
     background-color: #333; /* Example background */
     color: white;
+	margin: 16px;
 }
+
+@media (max-width: 768px) {
+	body {
+	  place-items: initial; /* removes centering on mobile */
+	}
+  }
 
 /* Animation that rotates the cover */
 @keyframes rotate-cover {

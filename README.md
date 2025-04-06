@@ -102,3 +102,12 @@ The `Coverflow` component accepts the following props:
 ### Styling
 
 The component relies on CSS for the coverflow effect. Basic styles are included in `src/styles.css`. You may need to adjust or extend these styles depending on your application's layout and design. The scroll-driven animation logic is in `public/scroll-timeline.js`, which is loaded by `index.html`.
+
+## Acknowledgements
+
+The CSS scroll-driven animation effect is based on the original demo by Bramus Van Damme:
+[https://scroll-driven-animations.style/demos/cover-flow/css/](https://scroll-driven-animations.style/demos/cover-flow/css/)
+
+## License
+
+This project is licensed under the terms of the [MIT License](LICENSE.md).

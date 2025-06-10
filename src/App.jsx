@@ -1,7 +1,7 @@
 import React from 'react';
 import Coverflow from './Coverflow';
 import './App.css'; // Keep or remove based on styling needs
-
+//
 function App() {
   return (
     <div className="App">
